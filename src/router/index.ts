@@ -13,6 +13,21 @@ const router = createRouter({
       name: 'blog',
       component: () => import('../views/Blog.vue'),
     },
+    {
+      path: '/series/ai-learn',
+      name: 'ai-learn',
+      component: () => import('../views/series/AiLearn.vue'),
+    },
+    {
+      path: '/series/vue-source',
+      name: 'vue-source',
+      component: () => import('../views/series/VueSource.vue'),
+    },
+    {
+      path: '/series/react-source',
+      name: 'react-source',
+      component: () => import('../views/series/ReactSource.vue'),
+    },
   ],
 })
 
