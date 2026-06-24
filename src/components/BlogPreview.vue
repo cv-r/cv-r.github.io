@@ -7,7 +7,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="reveal glass rounded-xl p-5 flex items-center justify-between gap-4 cursor-pointer group">
+  <div class="glass rounded-xl p-5 flex items-center justify-between gap-4 cursor-pointer group">
     <div class="flex-1 min-w-0">
       <h3 class="text-text-bright font-semibold truncate group-hover:text-accent-light transition-colors">
         {{ title }}

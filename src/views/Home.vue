@@ -42,195 +42,69 @@ let ctx: gsap.Context | null = null
 
 function setupAnimations() {
   ctx = gsap.context(() => {
+
     /* --- Hero parallax glow orbs --- */
     gsap.to('.glow-orb-hero-1', {
-      y: -100,
-      x: 60,
-      scrollTrigger: {
-        trigger: '#hero',
-        start: 'top top',
-        end: 'bottom top',
-        scrub: 0.6,
-      },
+      y: -100, x: 60,
+      scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: 0.6 },
     })
     gsap.to('.glow-orb-hero-2', {
-      y: 80,
-      x: -50,
-      scrollTrigger: {
-        trigger: '#hero',
-        start: 'top top',
-        end: 'bottom top',
-        scrub: 0.6,
-      },
+      y: 80, x: -50,
+      scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: 0.6 },
     })
     gsap.to('.glow-orb-hero-3', {
-      scale: 0.5,
-      opacity: 0,
-      scrollTrigger: {
-        trigger: '#hero',
-        start: 'top top',
-        end: 'bottom top',
-        scrub: 0.8,
-      },
+      scale: 0.5, opacity: 0,
+      scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: 0.8 },
     })
-
-    /* --- Hero scroll hint fade out --- */
     gsap.to('.scroll-hint', {
       opacity: 0,
-      scrollTrigger: {
-        trigger: '#hero',
-        start: 'top top',
-        end: '15% top',
-        scrub: true,
-      },
+      scrollTrigger: { trigger: '#hero', start: 'top top', end: '15% top', scrub: true },
     })
 
-    /* --- About section --- */
-    gsap.from('#about .section-heading-wrap', {
-      y: 60,
-      opacity: 0,
-      duration: 0.8,
-      scrollTrigger: {
-        trigger: '#about',
-        start: 'top 75%',
-        toggleActions: 'play none none none',
-      },
+    /* --- Helper: animate-in sections --- */
+    const sectionIn = (trigger: string, targets: gsap.TweenTarget, vars: gsap.TweenVars) => {
+      gsap.to(targets, {
+        opacity: 1, y: 0, x: 0, scale: 1,
+        duration: vars.duration || 0.7,
+        stagger: vars.stagger || 0,
+        ease: vars.ease || 'power3.out',
+        scrollTrigger: {
+          trigger,
+          start: vars.start || 'top 75%',
+          toggleActions: 'play none none none',
+        },
+      })
+    }
+
+    sectionIn('#about', '#about .section-heading-wrap', { duration: 0.8 })
+    sectionIn('#about', '#about .about-line', { duration: 0.6, stagger: 0.15, start: 'top 65%' })
+
+    sectionIn('#skills', '#skills .section-heading-wrap', { duration: 0.8 })
+    sectionIn('#skills', '#skills .skill-tag', {
+      duration: 0.4, stagger: { each: 0.03, from: 'random' }, ease: 'back.out(1.7)', start: 'top 65%',
     })
 
-    gsap.from('#about .about-line', {
-      x: -40,
-      opacity: 0,
-      duration: 0.6,
-      stagger: 0.15,
-      scrollTrigger: {
-        trigger: '#about',
-        start: 'top 65%',
-        toggleActions: 'play none none none',
-      },
+    sectionIn('#projects', '#projects .section-heading-wrap', { duration: 0.8 })
+    sectionIn('#projects', '#projects .project-card', {
+      duration: 0.7, stagger: 0.12, start: 'top 65%',
     })
 
-    /* --- Skills section --- */
-    gsap.from('#skills .section-heading-wrap', {
-      y: 60,
-      opacity: 0,
-      duration: 0.8,
-      scrollTrigger: {
-        trigger: '#skills',
-        start: 'top 75%',
-        toggleActions: 'play none none none',
-      },
+    sectionIn('#blog-section', '#blog-section .section-heading-wrap', { duration: 0.8 })
+    sectionIn('#blog-section', '#blog-section .blog-preview-item', {
+      duration: 0.5, stagger: 0.12, start: 'top 65%',
+    })
+    sectionIn('#blog-section', '#blog-section .blog-cta', {
+      duration: 0.6, ease: 'back.out(1.7)', start: 'top 55%',
     })
 
-    gsap.from('#skills .skill-tag', {
-      scale: 0,
-      opacity: 0,
-      duration: 0.4,
-      stagger: { each: 0.03, from: 'random' },
-      ease: 'back.out(1.7)',
-      scrollTrigger: {
-        trigger: '#skills',
-        start: 'top 65%',
-        toggleActions: 'play none none none',
-      },
+    sectionIn('#contact-section', '#contact-section .section-heading-wrap', { duration: 0.8 })
+    sectionIn('#contact-section', '#contact-section .contact-content', {
+      duration: 0.8, start: 'top 65%',
+    })
+    sectionIn('#contact-section', '#contact-section .contact-btn', {
+      duration: 0.6, ease: 'elastic.out(1, 0.5)', start: 'top 60%',
     })
 
-    /* --- Projects section --- */
-    gsap.from('#projects .section-heading-wrap', {
-      y: 60,
-      opacity: 0,
-      duration: 0.8,
-      scrollTrigger: {
-        trigger: '#projects',
-        start: 'top 75%',
-        toggleActions: 'play none none none',
-      },
-    })
-
-    gsap.from('#projects .project-card', {
-      y: 80,
-      opacity: 0,
-      duration: 0.7,
-      stagger: 0.12,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: '#projects',
-        start: 'top 65%',
-        toggleActions: 'play none none none',
-      },
-    })
-
-    /* --- Blog preview section --- */
-    gsap.from('#blog-section .section-heading-wrap', {
-      y: 60,
-      opacity: 0,
-      duration: 0.8,
-      scrollTrigger: {
-        trigger: '#blog-section',
-        start: 'top 75%',
-        toggleActions: 'play none none none',
-      },
-    })
-
-    gsap.from('#blog-section .blog-preview-item', {
-      x: -50,
-      opacity: 0,
-      duration: 0.5,
-      stagger: 0.12,
-      scrollTrigger: {
-        trigger: '#blog-section',
-        start: 'top 65%',
-        toggleActions: 'play none none none',
-      },
-    })
-
-    /* --- Blog CTA button --- */
-    gsap.from('#blog-section .blog-cta', {
-      scale: 0.8,
-      opacity: 0,
-      duration: 0.6,
-      ease: 'back.out(1.7)',
-      scrollTrigger: {
-        trigger: '#blog-section',
-        start: 'top 55%',
-        toggleActions: 'play none none none',
-      },
-    })
-
-    /* --- Contact section --- */
-    gsap.from('#contact-section .section-heading-wrap', {
-      y: 60,
-      opacity: 0,
-      duration: 0.8,
-      scrollTrigger: {
-        trigger: '#contact-section',
-        start: 'top 75%',
-        toggleActions: 'play none none none',
-      },
-    })
-
-    gsap.from('#contact-section .contact-content', {
-      y: 50,
-      opacity: 0,
-      duration: 0.8,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: '#contact-section',
-        start: 'top 65%',
-        toggleActions: 'play none none none',
-      },
-    })
-
-    gsap.from('#contact-section .contact-btn', {
-      scale: 0.5,
-      opacity: 0,
-      duration: 0.6,
-      ease: 'elastic.out(1, 0.5)',
-      scrollTrigger: {
-        trigger: '#contact-section',
-        start: 'top 60%',
-        toggleActions: 'play none none none',
-      },
-    })
   })
 }
 
@@ -351,7 +225,7 @@ const blogPosts = [
 
     <!-- ═══════════ ABOUT ═══════════ -->
     <section id="about" class="relative py-32 px-6">
-      <div class="section-heading-wrap">
+      <div class="section-heading-wrap anim-init">
         <SectionHeading emoji="🧠" title="关于我" />
       </div>
 
@@ -361,7 +235,7 @@ const blogPosts = [
           '长期深度使用 Claude Code、Cursor、MCP，AI 已经融入需求分析、架构设计、代码生成、重构到测试的全流程。不只自己用，还在团队里推广，帮大家一起提效。',
           '写过 Vue、React、Flutter，搞过企业级架构、组件库建设、配置化页面体系。PC、H5、小程序、App 都碰过，跨端踩坑经验丰富。',
           '相信好的工程师不只写代码，更写「可维护的系统」。热爱琢磨工程化——规范怎么定、流程怎么优化、团队怎么协作更丝滑。'
-        ]" :key="i" class="about-line flex gap-4">
+        ]" :key="i" class="about-line anim-init flex gap-4">
           <div class="mt-1.5 w-2 h-2 rounded-full bg-accent shrink-0" />
           <p class="text-text-dim text-lg leading-relaxed">{{ p }}</p>
         </div>
@@ -370,7 +244,7 @@ const blogPosts = [
 
     <!-- ═══════════ SKILLS ═══════════ -->
     <section id="skills" class="relative py-32 px-6">
-      <div class="section-heading-wrap">
+      <div class="section-heading-wrap anim-init">
         <SectionHeading emoji="🛠" title="技能工具箱" />
       </div>
 
@@ -378,7 +252,7 @@ const blogPosts = [
         <span
           v-for="skill in skills"
           :key="skill.name"
-          class="skill-tag px-4 py-2 rounded-full text-sm font-medium border cursor-default"
+          class="skill-tag anim-init px-4 py-2 rounded-full text-sm font-medium border cursor-default"
           :style="{
             color: skill.color,
             borderColor: skill.color + '33',
@@ -392,12 +266,12 @@ const blogPosts = [
 
     <!-- ═══════════ PROJECTS ═══════════ -->
     <section id="projects" class="relative py-32 px-6">
-      <div class="section-heading-wrap">
+      <div class="section-heading-wrap anim-init">
         <SectionHeading emoji="🚀" title="做过的事" />
       </div>
 
       <div class="max-w-5xl mx-auto mt-16 grid md:grid-cols-2 gap-6">
-        <div v-for="p in projects" :key="p.title" class="project-card">
+        <div v-for="p in projects" :key="p.title" class="project-card anim-init">
           <ProjectCard v-bind="p" />
         </div>
       </div>
@@ -405,17 +279,17 @@ const blogPosts = [
 
     <!-- ═══════════ BLOG PREVIEW ═══════════ -->
     <section id="blog-section" class="relative py-32 px-6">
-      <div class="section-heading-wrap">
+      <div class="section-heading-wrap anim-init">
         <SectionHeading emoji="📝" title="技能分享" />
       </div>
 
       <div class="max-w-3xl mx-auto mt-16 space-y-4">
-        <div v-for="post in blogPosts" :key="post.title" class="blog-preview-item">
+        <div v-for="post in blogPosts" :key="post.title" class="blog-preview-item anim-init">
           <BlogPreview v-bind="post" />
         </div>
       </div>
 
-      <div class="blog-cta text-center mt-12">
+      <div class="blog-cta anim-init text-center mt-12">
         <a
           href="/blog"
           class="inline-flex items-center gap-2 px-6 py-3 rounded-full glass text-text-bright font-medium hover:border-accent/50 transition-all duration-300"
@@ -428,12 +302,12 @@ const blogPosts = [
 
     <!-- ═══════════ CONTACT ═══════════ -->
     <section id="contact-section" class="relative py-32 px-6">
-      <div class="section-heading-wrap">
+      <div class="section-heading-wrap anim-init">
         <SectionHeading emoji="📬" title="找我聊聊" />
       </div>
 
       <div class="max-w-2xl mx-auto mt-16 text-center">
-        <div class="contact-content">
+        <div class="contact-content anim-init">
           <p class="text-lg text-text-dim mb-4">
             如果你正在找一位 <span class="text-accent-light font-semibold">AI 前端方向</span> 的伙伴——
           </p>
@@ -442,7 +316,7 @@ const blogPosts = [
           </p>
         </div>
 
-        <div class="contact-btn">
+        <div class="contact-btn anim-init">
           <a
             href="mailto:447256217zhangrui@gmail.com"
             class="inline-flex items-center gap-3 px-10 py-4 rounded-full bg-gradient-to-r from-indigo-600 to-violet-600 text-white text-lg font-semibold hover:from-indigo-500 hover:to-violet-500 transition-all duration-300 shadow-xl shadow-indigo-500/30"
@@ -468,6 +342,33 @@ const blogPosts = [
   filter: blur(100px);
   opacity: 0.12;
   pointer-events: none;
+}
+
+/* GSAP will animate these from hidden → visible */
+.anim-init {
+  opacity: 0;
+}
+.section-heading-wrap.anim-init,
+.about-line.anim-init {
+  transform: translateY(40px);
+}
+.project-card.anim-init {
+  transform: translateY(60px);
+}
+.blog-preview-item.anim-init {
+  transform: translateX(-30px);
+}
+.skill-tag.anim-init {
+  transform: scale(0);
+}
+.contact-btn.anim-init {
+  transform: scale(0.5);
+}
+.contact-content.anim-init {
+  transform: translateY(40px);
+}
+.blog-cta.anim-init {
+  transform: scale(0.8);
 }
 
 .cursor::after {
